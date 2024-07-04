@@ -1,0 +1,11 @@
+{
+  "name": "electron-demo",
+  "version": "1.0.0",
+  "description": "just a demo",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Haoyi Shen",
+  "license": "MIT"
+}
