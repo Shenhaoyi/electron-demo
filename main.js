@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('node:path');
 
 const createWindow = () => {
@@ -13,6 +13,13 @@ const createWindow = () => {
   win.loadFile('index.html');
 };
 
+async function handleFileOpen() {
+  const { canceled, filePaths } = await dialog.showOpenDialog({});
+  if (!canceled) {
+    return filePaths[0];
+  }
+}
+
 app.whenReady().then(() => {
   createWindow();
 
@@ -20,6 +27,8 @@ app.whenReady().then(() => {
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
+
+  ipcMain.handle('dialog:openFile', handleFileOpen);
 });
 // macOS 以外的平台，当所有窗口关闭时，退出应用
 app.on('window-all-closed', () => {
